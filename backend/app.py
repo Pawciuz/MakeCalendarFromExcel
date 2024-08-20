@@ -6,7 +6,7 @@ import pytz
 import os
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
 @app.route('/')
@@ -16,6 +16,7 @@ def index():
 @app.route('/<path:path>')
 def static_proxy(path):
     return send_from_directory(app.static_folder, path)
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
