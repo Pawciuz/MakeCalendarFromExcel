@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        body > .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #4A90E2;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 0 auto 20px;
+            width: calc(100% - 40px);
+            font-size: 1rem;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: white;
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+        }
+
+        ul {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        @media (max-width: 480px) {
+            form, .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prześlij plik Excel i wygeneruj kalendarz</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx,.xls" required>
+            <button type="submit">Generuj plik .ics</button>
+        </form>
+
+        <h2>Przykładowy plik Excel</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Godzina rozpoczecia</th>
+                    <th>Godzina zakonczenia</th>
+                    <th>Nazwa wydarzenia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024-08-01</td>
+                    <td>10:00:00</td>
+                    <td>17:00:00</td>
+                    <td>Spotkanie z zespołem</td>
+                </tr>
+                <tr>
+                    <td>2024-08-02</td>
+                    <td>12:00:00</td>
+                    <td>13:00:00</td>
+                    <td>Lunch z klientem</td>
+                </tr>
+                <tr>
+                    <td>2024-08-03</td>
+                    <td>09:00:00</td>
+                    <td>11:00:00</td>
+                    <td>Prezentacja projektu</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="container">
+            <p>Wszystkie kolumny muszą być obecne i odpowiednio nazwane w pliku Excel:</p>
+            <ul>
+                <li><strong>Data</strong> - Data wydarzenia w formacie YYYY-MM-DD</li>
+                <li><strong>Godzina rozpoczecia</strong> - Czas rozpoczęcia w formacie HH:MM:SS</li>
+                <li><strong>Godzina zakonczenia</strong> - Czas zakończenia w formacie HH:MM:SS</li>
+                <li><strong>Nazwa wydarzenia</strong> - Nazwa wydarzenia</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
