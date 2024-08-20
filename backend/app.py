@@ -6,16 +6,16 @@ import pytz
 import os
 from flask_cors import CORS
 
-app = Flask(__name__, static_folder='../frontend/build')
+app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 def index():
-    return send_from_directory(os.path.join(app.root_path, '../frontend/build'), 'index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/<path:path>')
 def static_proxy(path):
-    return send_from_directory(os.path.join(app.root_path, '../frontend/build'), path)
+    return send_from_directory(app.static_folder, path)
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
