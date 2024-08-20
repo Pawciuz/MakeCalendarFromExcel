@@ -1,5 +1,5 @@
-// FileUpload.js
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -27,18 +27,20 @@ const FileUpload = () => {
         document.body.appendChild(link);
         link.click();
         link.remove();
+        toast.success('Wygenerowano plik kalendarza 😄');
       } else {
-        console.error('Upload failed');
+        const errorData = await response.text();
+        toast.error(errorData);
       }
     } catch (error) {
-      console.error('Error:', error);
+      toast.error(error.message);
     }
   };
 
   return (
     <div>
       <input type="file" onChange={onFileChange} />
-      <button onClick={onUpload}>Generuj plik .ics</button>
+      <button className="custom-button" onClick={onUpload} disabled={!file}>Generuj plik .ics</button>
     </div>
   );
 };
