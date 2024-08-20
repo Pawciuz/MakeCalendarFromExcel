@@ -1,15 +1,17 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, send_from_directory
 import pandas as pd
 from ics import Calendar, Event
 from datetime import datetime
 import pytz
 import os
+from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='')
+CORS(app)
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -47,4 +49,4 @@ def upload_file():
     return "Niepoprawny format pliku", 400
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
