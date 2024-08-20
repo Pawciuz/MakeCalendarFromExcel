@@ -11,10 +11,11 @@ CORS(app)
 
 @app.route('/')
 def index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory(os.path.join(app.root_path, '../frontend/build'), 'index.html')
+
 @app.route('/<path:path>')
 def static_proxy(path):
-    return send_from_directory(app.static_folder, path)
+    return send_from_directory(os.path.join(app.root_path, '../frontend/build'), path)
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
