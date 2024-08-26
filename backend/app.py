@@ -9,17 +9,16 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='')
 CORS(app)
 
+
 def remove_previous_calendar(ics_file):
-    """Usuwa plik kalendarza, jeśli istnieje, lub tworzy pusty plik."""
     if os.path.exists(ics_file):
         os.remove(ics_file)
-        print(f'Plik {ics_file} został usunięty.')
-    else:
-        print(f'Plik {ics_file} nie istnieje. Zostanie utworzony nowy plik.')
+
 
 @app.route('/')
 def index():
     return send_from_directory(app.static_folder, 'index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -32,10 +31,8 @@ def upload_file():
 
     if file and file.filename.endswith(('.xlsx', '.xls')):
         try:
-            # Odczyt pliku Excel
             df = pd.read_excel(file)
 
-            # Tworzenie kalendarza
             calendar = Calendar()
             poland_tz = pytz.timezone('Europe/Warsaw')
 
@@ -51,24 +48,21 @@ def upload_file():
                     event.end = end_dt
                     calendar.events.add(event)
 
-            # Używanie katalogu tymczasowego
             ics_file = '/tmp/kalendarz.ics'
-            # Usuwanie poprzedniego pliku lub tworzenie nowego
+
             remove_previous_calendar(ics_file)
 
-            # Zapisywanie nowego pliku kalendarza
             with open(ics_file, 'w') as f:
                 f.writelines(calendar)
                 print(f'Plik {ics_file} został zapisany.')
 
-            # Wysyłanie pliku jako załącznika
             return send_file(ics_file, as_attachment=True)
 
         except Exception as e:
-            print(f'Wystąpił błąd: {e}')
             return "Wystąpił błąd podczas przetwarzania pliku", 500
 
     return "Niepoprawny format pliku", 400
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
