@@ -8,6 +8,9 @@ from flask_cors import CORS
 
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='')
 CORS(app)
+def remove_previous_calendar(ics_file):
+    if os.path.exists(ics_file):
+        os.remove(ics_file)
 
 @app.route('/')
 def index():
@@ -41,6 +44,7 @@ def upload_file():
                 calendar.events.add(event)
 
         ics_file = 'kalendarz.ics'
+        remove_previous_calendar(ics_file)
         with open(ics_file, 'w') as f:
             f.writelines(calendar)
 
