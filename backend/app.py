@@ -11,6 +11,9 @@ CORS(app)
 def remove_previous_calendar(ics_file):
     if os.path.exists(ics_file):
         os.remove(ics_file)
+    else:
+        with open(ics_file, 'w') as f:
+            f.write("")
 
 @app.route('/')
 def index():
